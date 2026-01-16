@@ -1,11 +1,10 @@
-
-import React, { useState } from 'react';
-import { 
-  Fingerprint, 
-  CloudUpload, 
-  Cpu, 
-  Terminal, 
-  Copy, 
+import React, { useState } from "react";
+import {
+  Fingerprint,
+  CloudUpload,
+  Cpu,
+  Terminal,
+  Copy,
   Check,
   Zap,
   Lock,
@@ -13,24 +12,41 @@ import {
   Plus,
   Trash2,
   Code2,
-  ChevronRight
-} from 'lucide-react';
+  ChevronRight,
+} from "lucide-react";
+import post from "./api";
 
 // --- Sub-components ---
 
 const Navbar = () => (
   <nav className="border-b border-iris-purple px-6 md:px-12 py-5 flex items-center justify-between sticky top-0 bg-iris-black z-50">
-    <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+    <div
+      className="flex items-center gap-2 cursor-pointer"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+    >
       <Fingerprint className="text-iris-purple w-6 h-6" />
-      <span className="font-black text-2xl tracking-tighter uppercase font-sans">Iris</span>
+      <span className="font-black text-2xl tracking-tighter uppercase font-sans">
+        Iris
+      </span>
     </div>
     <div className="hidden md:flex items-center gap-10 text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-500">
-      <a href="#workflow" className="hover:text-iris-purple transition-colors">Workflow</a>
-      <a href="#playground" className="hover:text-iris-purple transition-colors">Playground</a>
-      <a href="#docs" className="hover:text-iris-purple transition-colors">Implementation</a>
+      <a href="#workflow" className="hover:text-iris-purple transition-colors">
+        Workflow
+      </a>
+      <a
+        href="#playground"
+        className="hover:text-iris-purple transition-colors"
+      >
+        Playground
+      </a>
+      <a href="#docs" className="hover:text-iris-purple transition-colors">
+        Implementation
+      </a>
     </div>
     <button className="bg-iris-purple text-iris-black text-[10px] font-mono font-bold uppercase px-6 py-2 border border-iris-purple hover:bg-iris-black hover:text-iris-purple transition-all">
-      Start Building
+      <a href="#docs" className="hover:text-iris-purple transition-colors">
+        Start Building
+      </a>
     </button>
   </nav>
 );
@@ -45,13 +61,21 @@ const Hero = () => (
         The infrastructure layer for medical face comparison.
       </h2>
       <p className="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-sans">
-        High-speed, stateless biometric matching for hospital emergency systems. Identify unresponsive patients without storing a single byte of biometric data. Open and free for medical developers.
+        High-speed, stateless biometric matching for hospital emergency systems.
+        Identify unresponsive patients without storing a single byte of
+        biometric data. Open and free for medical developers.
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#playground" className="min-w-[220px] bg-iris-purple text-iris-black font-mono font-bold py-4 px-8 uppercase text-xs border border-iris-purple hover:bg-iris-black hover:text-iris-purple transition-all flex items-center justify-center">
-          Launch Console
+        <a
+          href="#playground"
+          className="min-w-[220px] bg-iris-purple text-iris-black font-mono font-bold py-4 px-8 uppercase text-xs border border-iris-purple hover:bg-iris-black hover:text-iris-purple transition-all flex items-center justify-center"
+        >
+          Open Playground
         </a>
-        <a href="#docs" className="min-w-[220px] flex items-center justify-center bg-iris-black text-iris-purple font-mono font-bold py-4 px-8 uppercase text-xs border border-iris-purple hover:bg-iris-purple hover:text-iris-black transition-all">
+        <a
+          href="#docs"
+          className="min-w-[220px] flex items-center justify-center bg-iris-black text-iris-purple font-mono font-bold py-4 px-8 uppercase text-xs border border-iris-purple hover:bg-iris-purple hover:text-iris-black transition-all"
+        >
           View Docs
         </a>
       </div>
@@ -64,32 +88,48 @@ const TechnicalWorkflow = () => {
     {
       title: "Request",
       icon: <CloudUpload className="w-10 h-10 text-iris-purple" />,
-      description: "Hospital sends POST /compare with target_url and people map."
+      description:
+        "Hospital sends POST /compare with target_url and people map.",
     },
     {
       title: "In-Memory Inference",
       icon: <Cpu className="w-10 h-10 text-iris-purple" />,
-      description: "Pixels are converted to 128-bit vectors in RAM."
+      description: "Pixels are converted to 128-bit vectors in RAM.",
     },
     {
       title: "Result",
       icon: <Terminal className="w-10 h-10 text-iris-purple" />,
-      description: "Similarity scores are returned; RAM is cleared immediately."
-    }
+      description:
+        "Similarity scores are returned; RAM is cleared immediately.",
+    },
   ];
 
   return (
-    <section id="workflow" className="py-24 px-6 max-w-7xl mx-auto border-t border-iris-purple">
+    <section
+      id="workflow"
+      className="py-24 px-6 max-w-7xl mx-auto border-t border-iris-purple"
+    >
       <div className="mb-16 text-center">
-        <h3 className="text-iris-purple font-mono text-[10px] font-bold tracking-[0.5em] uppercase mb-4">Technical Workflow</h3>
-        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight">The "No-Storage" Pipeline</h2>
+        <h3 className="text-iris-purple font-mono text-[10px] font-bold tracking-[0.5em] uppercase mb-4">
+          Technical Workflow
+        </h3>
+        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight">
+          The "No-Storage" Pipeline
+        </h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-iris-purple">
         {steps.map((step, idx) => (
-          <div key={idx} className="p-12 bg-iris-grey/20 border-b md:border-b-0 md:border-r last:border-r-0 border-iris-purple text-center group">
+          <div
+            key={idx}
+            className="p-12 bg-iris-grey/20 border-b md:border-b-0 md:border-r last:border-r-0 border-iris-purple text-center group"
+          >
             <div className="flex justify-center mb-8">{step.icon}</div>
-            <h4 className="text-xl font-black uppercase mb-4 font-sans tracking-tight">{step.title}</h4>
-            <p className="text-zinc-500 text-sm leading-relaxed font-sans">{step.description}</p>
+            <h4 className="text-xl font-black uppercase mb-4 font-sans tracking-tight">
+              {step.title}
+            </h4>
+            <p className="text-zinc-500 text-sm leading-relaxed font-sans">
+              {step.description}
+            </p>
           </div>
         ))}
       </div>
@@ -98,17 +138,27 @@ const TechnicalWorkflow = () => {
 };
 
 const APIPlayground = () => {
-  const [targetUrl, setTargetUrl] = useState('https://storage.hosp.org/emergency_capture_01.jpg');
+  const [targetUrl, setTargetUrl] = useState(
+    "https://static.wikia.nocookie.net/amazingspiderman/images/3/33/Tobey_Maguire_Infobox.png/revision/latest/scale-to-width-down/535?cb=20240322015635"
+  );
   const [people, setPeople] = useState([
-    { name: "Patient_992", image_url: "https://records.hosp.org/p992.jpg" },
-    { name: "Patient_415", image_url: "https://records.hosp.org/p415.jpg" }
+    {
+      name: "Maguire",
+      image_url:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqiVCCW7eH5Q_8q4VULShU7O8QnOgp7Us2RBNhAlnesh2_iho_D1Toosuxj_x66J1w8ks&usqp=CAU",
+    },
+    {
+      name: "Tom",
+      image_url:
+        "https://static.wikia.nocookie.net/marvelcinematicuniverse/images/2/2f/Tom_Holland.jpg/revision/latest/scale-to-width-down/1200?cb=20220213015022",
+    },
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState<any>({
-    "matches": [
-      { "name": "Patient_992", "probability": 98.0 },
-      { "name": "Patient_415", "probability": 14.2 }
-    ]
+    matches: [
+      { name: "Patient_992", probability: 98.0 },
+      { name: "Patient_415", probability: 14.2 },
+    ],
   });
 
   const addPerson = () => {
@@ -119,30 +169,38 @@ const APIPlayground = () => {
     setPeople(people.filter((_, i) => i !== index));
   };
 
-  const updatePerson = (index: number, field: 'name' | 'image_url', value: string) => {
+  const updatePerson = (
+    index: number,
+    field: "name" | "image_url",
+    value: string
+  ) => {
     const updated = [...people];
     updated[index][field] = value;
     setPeople(updated);
   };
 
-  const handleExecute = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      const matches = people.map(p => ({
-        name: p.name || "Unknown",
-        probability: parseFloat((Math.random() * 99).toFixed(1))
-      })).sort((a, b) => b.probability - a.probability);
+  const handleExecute = async () => {
+    try {
+      setIsLoading(true);
+      const matches = await post("compare", { target_url: targetUrl, people });
 
+      console.log(matches);
       setResponse({ matches });
+    } catch (error) {
+    } finally {
       setIsLoading(false);
-    }, 600);
+    }
   };
 
   return (
     <section id="playground" className="py-24 px-6 max-w-7xl mx-auto">
       <div className="mb-12 border-l-4 border-iris-purple pl-6">
-        <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter mb-2 font-sans">REST API Playground</h2>
-        <p className="text-zinc-500 font-mono text-[10px] font-bold tracking-widest uppercase">Live Demo Dashboard</p>
+        <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter mb-2 font-sans">
+          REST API Playground
+        </h2>
+        <p className="text-zinc-500 font-mono text-[10px] font-bold tracking-widest uppercase">
+          Live Demo Dashboard
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-iris-purple">
@@ -150,30 +208,37 @@ const APIPlayground = () => {
         <div className="p-8 md:p-12 bg-iris-black border-b lg:border-b-0 lg:border-r border-iris-purple">
           <div className="space-y-8">
             <div className="space-y-2">
-              <label className="text-[10px] font-mono font-bold tracking-widest text-iris-purple uppercase">target_url</label>
-              <input 
+              <label className="text-[10px] font-mono font-bold tracking-widest text-iris-purple uppercase">
+                target_url
+              </label>
+              <input
                 value={targetUrl}
                 onChange={(e) => setTargetUrl(e.target.value)}
                 className="w-full bg-iris-grey border border-iris-purple p-4 font-mono text-xs focus:bg-iris-purple/5 outline-none text-white"
                 placeholder="The emergency capture URL"
               />
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="text-[10px] font-mono font-bold tracking-widest text-iris-purple uppercase">people (comparison list)</label>
-                <button 
+                <label className="text-[10px] font-mono font-bold tracking-widest text-iris-purple uppercase">
+                  people (comparison list)
+                </label>
+                <button
                   onClick={addPerson}
                   className="text-iris-purple hover:text-white flex items-center gap-1 text-[10px] font-mono font-bold uppercase"
                 >
                   <Plus className="w-3 h-3" /> Add Person
                 </button>
               </div>
-              
+
               <div className="space-y-4 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
                 {people.map((person, idx) => (
-                  <div key={idx} className="p-4 border border-zinc-800 bg-iris-grey/30 relative group">
-                    <button 
+                  <div
+                    key={idx}
+                    className="p-4 border border-zinc-800 bg-iris-grey/30 relative group"
+                  >
+                    <button
                       onClick={() => removePerson(idx)}
                       className="absolute top-2 right-2 text-zinc-600 hover:text-red-500"
                     >
@@ -181,18 +246,26 @@ const APIPlayground = () => {
                     </button>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <span className="text-[8px] font-mono text-zinc-600 uppercase">name</span>
-                        <input 
+                        <span className="text-[8px] font-mono text-zinc-600 uppercase">
+                          name
+                        </span>
+                        <input
                           value={person.name}
-                          onChange={(e) => updatePerson(idx, 'name', e.target.value)}
+                          onChange={(e) =>
+                            updatePerson(idx, "name", e.target.value)
+                          }
                           className="w-full bg-iris-black border border-zinc-800 p-2 font-mono text-[10px] focus:border-iris-purple outline-none"
                         />
                       </div>
                       <div className="space-y-1">
-                        <span className="text-[8px] font-mono text-zinc-600 uppercase">image_url</span>
-                        <input 
+                        <span className="text-[8px] font-mono text-zinc-600 uppercase">
+                          image_url
+                        </span>
+                        <input
                           value={person.image_url}
-                          onChange={(e) => updatePerson(idx, 'image_url', e.target.value)}
+                          onChange={(e) =>
+                            updatePerson(idx, "image_url", e.target.value)
+                          }
                           className="w-full bg-iris-black border border-zinc-800 p-2 font-mono text-[10px] focus:border-iris-purple outline-none"
                         />
                       </div>
@@ -202,7 +275,7 @@ const APIPlayground = () => {
               </div>
             </div>
 
-            <button 
+            <button
               onClick={handleExecute}
               disabled={isLoading}
               className="w-full bg-iris-purple text-iris-black font-mono font-bold uppercase py-5 flex items-center justify-center gap-2 hover:bg-white transition-all disabled:opacity-50"
@@ -215,7 +288,9 @@ const APIPlayground = () => {
         {/* Right Output Pane */}
         <div className="bg-iris-black flex flex-col min-h-[400px]">
           <div className="p-4 border-b border-iris-purple bg-iris-grey/50 flex items-center justify-between">
-            <span className="text-[10px] font-mono font-bold tracking-widest text-zinc-400 uppercase">Output: Match Result JSON</span>
+            <span className="text-[10px] font-mono font-bold tracking-widest text-zinc-400 uppercase">
+              Output: Match Result JSON
+            </span>
             <div className="flex gap-1.5">
               <div className="w-1.5 h-1.5 bg-iris-purple"></div>
               <div className="w-1.5 h-1.5 bg-iris-purple"></div>
@@ -233,15 +308,15 @@ const APIPlayground = () => {
 };
 
 const Implementation = () => {
-  const [activeLang, setActiveLang] = useState('curl');
+  const [activeLang, setActiveLang] = useState("curl");
   const [copied, setCopied] = useState(false);
 
   const languages = [
-    { id: 'curl', name: 'cURL' },
-    { id: 'rust', name: 'Rust' },
-    { id: 'python', name: 'Python' },
-    { id: 'javascript', name: 'JavaScript' },
-    { id: 'go', name: 'Go' }
+    { id: "curl", name: "cURL" },
+    { id: "rust", name: "Rust" },
+    { id: "python", name: "Python" },
+    { id: "javascript", name: "JavaScript" },
+    { id: "go", name: "Go" },
   ];
 
   const codeExamples: Record<string, string> = {
@@ -344,7 +419,7 @@ func main() {
 	resp, _ := http.Post("http://api.iris.dev/compare", "application/json", bytes.NewBuffer(jsonData))
 	
 	fmt.Println("Status:", resp.Status)
-}`
+}`,
   };
 
   const handleCopy = () => {
@@ -354,10 +429,17 @@ func main() {
   };
 
   return (
-    <section id="docs" className="py-24 px-6 max-w-7xl mx-auto border-t border-iris-purple">
+    <section
+      id="docs"
+      className="py-24 px-6 max-w-7xl mx-auto border-t border-iris-purple"
+    >
       <div className="mb-12">
-        <h3 className="text-3xl font-black uppercase tracking-tight mb-2 font-sans">Implementation Section</h3>
-        <p className="text-iris-purple font-mono text-[10px] font-bold tracking-widest uppercase">Developer Proof: No SDK required. Pure REST implementation.</p>
+        <h3 className="text-3xl font-black uppercase tracking-tight mb-2 font-sans">
+          Implementation Section
+        </h3>
+        <p className="text-iris-purple font-mono text-[10px] font-bold tracking-widest uppercase">
+          Developer Proof: No SDK required. Pure REST implementation.
+        </p>
       </div>
 
       <div className="border border-iris-purple bg-iris-black overflow-hidden">
@@ -368,20 +450,24 @@ func main() {
               key={lang.id}
               onClick={() => setActiveLang(lang.id)}
               className={`px-8 py-4 font-mono text-[10px] font-bold uppercase tracking-widest transition-all border-r border-iris-purple last:border-r-0 whitespace-nowrap ${
-                activeLang === lang.id 
-                  ? 'bg-iris-purple text-iris-black' 
-                  : 'text-zinc-500 hover:text-iris-purple hover:bg-iris-grey/50'
+                activeLang === lang.id
+                  ? "bg-iris-purple text-iris-black"
+                  : "text-zinc-500 hover:text-iris-purple hover:bg-iris-grey/50"
               }`}
             >
               {lang.name}
             </button>
           ))}
           <div className="ml-auto px-4 flex items-center">
-            <button 
+            <button
               onClick={handleCopy}
               className="p-2 text-zinc-500 hover:text-white transition-colors flex items-center gap-2 font-mono text-[9px] uppercase font-bold"
             >
-              {copied ? <Check className="w-3 h-3 text-green-500" /> : <Copy className="w-3 h-3" />}
+              {copied ? (
+                <Check className="w-3 h-3 text-green-500" />
+              ) : (
+                <Copy className="w-3 h-3" />
+              )}
               {copied ? "Copied" : "Copy"}
             </button>
           </div>
@@ -394,21 +480,6 @@ func main() {
           </pre>
         </div>
       </div>
-
-      <div className="mt-12 p-8 border border-iris-purple bg-iris-black group hover:bg-iris-purple/5 transition-all cursor-pointer">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div className="w-12 h-12 flex items-center justify-center bg-iris-purple text-iris-black">
-              <Code2 className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-xl font-black uppercase tracking-tight mb-1">Advanced Documentation</h4>
-              <p className="text-zinc-500 text-xs font-mono uppercase tracking-widest">Read full API reference and authentication models.</p>
-            </div>
-          </div>
-          <ChevronRight className="w-6 h-6 text-iris-purple group-hover:translate-x-2 transition-transform" />
-        </div>
-      </div>
     </section>
   );
 };
@@ -419,18 +490,33 @@ const SecuritySection = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
         <div className="space-y-4 border border-iris-purple p-8">
           <Zap className="w-8 h-8 text-iris-purple" />
-          <h4 className="text-lg font-black uppercase font-sans tracking-tight">Stateless Execution</h4>
-          <p className="text-zinc-500 text-xs leading-relaxed font-sans">No persistent storage. Data is processed in volatile RAM and cleared instantly upon response completion. Perfect for emergency privacy.</p>
+          <h4 className="text-lg font-black uppercase font-sans tracking-tight">
+            Stateless Execution
+          </h4>
+          <p className="text-zinc-500 text-xs leading-relaxed font-sans">
+            No persistent storage. Data is processed in volatile RAM and cleared
+            instantly upon response completion. Perfect for emergency privacy.
+          </p>
         </div>
         <div className="space-y-4 border border-iris-purple p-8">
           <Lock className="w-8 h-8 text-iris-purple" />
-          <h4 className="text-lg font-black uppercase font-sans tracking-tight">Clinical Compliance</h4>
-          <p className="text-zinc-500 text-xs leading-relaxed font-sans">Designed for HIPAA-regulated environments. No biometric data leaves the request-response cycle.</p>
+          <h4 className="text-lg font-black uppercase font-sans tracking-tight">
+            Clinical Compliance
+          </h4>
+          <p className="text-zinc-500 text-xs leading-relaxed font-sans">
+            Designed for HIPAA-regulated environments. No biometric data leaves
+            the request-response cycle.
+          </p>
         </div>
         <div className="space-y-4 border border-iris-purple p-8">
           <ShieldCheck className="w-8 h-8 text-iris-purple" />
-          <h4 className="text-lg font-black uppercase font-sans tracking-tight">Open Infra</h4>
-          <p className="text-zinc-500 text-xs leading-relaxed font-sans">Built to be an open standard for medical identity. Free access for clinical research and hospital emergency wards.</p>
+          <h4 className="text-lg font-black uppercase font-sans tracking-tight">
+            Open Infra
+          </h4>
+          <p className="text-zinc-500 text-xs leading-relaxed font-sans">
+            Built to be an open standard for medical identity. Free access for
+            clinical research and hospital emergency wards.
+          </p>
         </div>
       </div>
     </section>
@@ -446,17 +532,25 @@ const App: React.FC = () => {
       <APIPlayground />
       <Implementation />
       <SecuritySection />
-      
+
       <footer className="py-20 px-6 border-t border-iris-purple bg-iris-black text-center">
         <div className="max-w-7xl mx-auto flex flex-col items-center gap-8">
           <div className="flex items-center gap-2">
             <Fingerprint className="text-iris-purple w-5 h-5" />
-            <span className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase">Iris Biometric Infrastructure — v2.2.0</span>
+            <span className="font-mono text-[10px] font-bold tracking-[0.3em] uppercase">
+              Iris Biometric Infrastructure — v1.0.0
+            </span>
           </div>
           <div className="flex gap-8 text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-600">
-            <span className="hover:text-iris-purple cursor-pointer">Security</span>
-            <span className="hover:text-iris-purple cursor-pointer">Protocol</span>
-            <span className="hover:text-iris-purple cursor-pointer">Uptime</span>
+            <span className="hover:text-iris-purple cursor-pointer">
+              Security
+            </span>
+            <span className="hover:text-iris-purple cursor-pointer">
+              Protocol
+            </span>
+            <span className="hover:text-iris-purple cursor-pointer">
+              Uptime
+            </span>
             <span className="hover:text-iris-purple cursor-pointer">Audit</span>
           </div>
         </div>
