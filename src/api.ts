@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
-console.log(`${backendUrl}`);
+import backendUrl from "./constant";
 
 const post = async (path: string, data: {}): Promise<any> => {
   try {
