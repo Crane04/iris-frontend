@@ -6,7 +6,7 @@ const TechnicalWorkflow = () => {
       title: "Request",
       icon: <CloudUpload className="w-10 h-10 text-iris-purple" />,
       description:
-        "Hospital sends POST /compare with target_url and people map.",
+        "Send POST /compare with target_url and candidates database. Works for any application.",
     },
     {
       title: "In-Memory Inference",

@@ -78,7 +78,7 @@ const Hero = () => {
             transitionDelay: "400ms",
           }}
         >
-          The infrastructure layer for medical face comparison.
+          Universal facial recognition infrastructure
         </h2>
 
         <p
@@ -89,9 +89,10 @@ const Hero = () => {
             transitionDelay: "600ms",
           }}
         >
-          High-speed, stateless biometric matching for hospital emergency
-          systems. Identify unresponsive patients without storing a single byte
-          of biometric data. Open and free for medical developers.
+          High-speed, stateless biometric matching for any use case. From
+          e-learning authentication to identity verification, access control,
+          and beyond. Process faces without storing a single byte of biometric
+          data. Open and free for developers everywhere.
         </p>
 
         <div

@@ -17,11 +17,11 @@ const Implementation = () => {
   const codeExamples: Record<string, string> = {
     curl: `curl -X POST ${backendUrl}/compare \\
   -d '{
-    "target_url": "https://img.url/target",
+    "target_url": "https://img.url/user-face",
     "people": [
       {
-        "name": "Patient_ID_992",
-        "image_url": "https://img.url/p992"
+        "name": "user_001",
+        "image_url": "https://img.url/database-ref-1"
       }
     ]
   }'`,
@@ -44,10 +44,10 @@ struct Person {
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client = Client::new();
     let payload = CompareRequest {
-        target_url: "https://img.url/target".into(),
+        target_url: "https://img.url/user-face".into(),
         people: vec![Person {
-            name: "Patient_ID_992".into(),
-            image_url: "https://img.url/p992".into(),
+            name: "user_001".into(),
+            image_url: "https://img.url/database-ref-1".into(),
         }],
     };
 
@@ -62,11 +62,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     python: `import requests
 
 payload = {
-    "target_url": "https://img.url/target",
+    "target_url": "https://img.url/user-face",
     "people": [
         {
-            "name": "Patient_ID_992",
-            "image_url": "https://img.url/p992"
+            "name": "user_001",
+            "image_url": "https://img.url/database-ref-1"
         }
     ]
 }
@@ -74,11 +74,11 @@ payload = {
 response = requests.post("${backendUrl}/compare", json=payload)
 print(response.json())`,
     javascript: `const payload = {
-  target_url: "https://img.url/target",
+  target_url: "https://img.url/user-face",
   people: [
     {
-      name: "Patient_ID_992",
-      image_url: "https://img.url/p992"
+      name: "user_001",
+      image_url: "https://img.url/database-ref-1"
     }
   ]
 };
@@ -101,11 +101,11 @@ import (
 
 func main() {
 	payload := map[string]interface{}{
-		"target_url": "https://img.url/target",
+		"target_url": "https://img.url/user-face",
 		"people": []map[string]string{
 			{
-				"name":      "Patient_ID_992",
-				"image_url": "https://img.url/p992",
+				"name":      "user_001",
+				"image_url": "https://img.url/database-ref-1",
 			},
 		},
 	}

@@ -1,5 +1,5 @@
 {
-  "name": "Copy of Iris — Biometric Infrastructure",
-  "description": "A high-performance, stateless medical face comparison infrastructure layer for hospital emergency systems and clinical identity verification.",
+  "name": "Iris — Universal Facial Recognition Infrastructure",
+  "description": "A high-performance, stateless facial recognition infrastructure layer for any application. From e-learning authentication to identity verification, access control, and beyond.",
   "requestFramePermissions": []
 }

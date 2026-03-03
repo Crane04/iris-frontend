@@ -64,8 +64,8 @@ const APIPlayground = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState<any>({
     matches: [
-      { name: "Patient_992", probability: 98.0 },
-      { name: "Patient_415", probability: 14.2 },
+      { name: "user_001", probability: 98.0 },
+      { name: "user_042", probability: 14.2 },
     ],
   });
 
@@ -76,9 +76,7 @@ const APIPlayground = () => {
     setTargetUrl("");
   };
 
-  const handleTargetUpload = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleTargetUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setTargetUrl(await readFileAsDataUrl(file));
@@ -92,10 +90,7 @@ const APIPlayground = () => {
     setPeople(people.filter((_, i) => i !== index));
   };
 
-  const updatePerson = (
-    index: number,
-    fields: Partial<PersonState>,
-  ) => {
+  const updatePerson = (index: number, fields: Partial<PersonState>) => {
     const updated = [...people];
     updated[index] = { ...updated[index], ...fields };
     setPeople(updated);
@@ -160,7 +155,7 @@ const APIPlayground = () => {
                     value={targetUrl}
                     onChange={(e) => setTargetUrl(e.target.value)}
                     className="flex-1 bg-iris-grey border border-iris-purple p-4 font-mono text-xs focus:bg-iris-purple/5 outline-none text-white"
-                    placeholder="The emergency capture URL"
+                    placeholder="Provide a face image URL for comparison"
                   />
                 ) : (
                   <>
@@ -176,7 +171,9 @@ const APIPlayground = () => {
                       className="flex-1 bg-iris-grey border border-iris-purple p-4 font-mono text-xs text-zinc-500 hover:bg-iris-purple/5 outline-none flex items-center gap-2"
                     >
                       <Upload className="w-3 h-3 flex-shrink-0" />
-                      {targetUrl ? "Image loaded — click to replace" : "Click to upload image"}
+                      {targetUrl
+                        ? "Image loaded — click to replace"
+                        : "Click to upload image"}
                     </button>
                   </>
                 )}
