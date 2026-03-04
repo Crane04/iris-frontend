@@ -1,4 +1,5 @@
 import irisImage from "../assets/iris.png";
+import { Github, Mail, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -10,15 +11,30 @@ const Footer = () => {
             Iris Biometric Infrastructure — v1.0.0
           </span>
         </div>
-        <div className="flex gap-8 text-[9px] font-mono font-bold tracking-[0.2em] uppercase text-zinc-600">
-          <span className="hover:text-iris-purple cursor-pointer">
-            Security
-          </span>
-          <span className="hover:text-iris-purple cursor-pointer">
-            Protocol
-          </span>
-          <span className="hover:text-iris-purple cursor-pointer">Uptime</span>
-          <span className="hover:text-iris-purple cursor-pointer">Audit</span>
+
+        <div className="flex gap-6">
+          <a
+            href="https://github.com/Crane04"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-400 hover:text-iris-purple transition-colors"
+          >
+            <Github size={20} />
+          </a>
+          <a
+            href="https://x.com/Crane04"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-400 hover:text-iris-purple transition-colors"
+          >
+            <Twitter size={20} />
+          </a>
+          <a
+            href="mailto:mayowayusuf3004@gmail.com"
+            className="text-zinc-400 hover:text-iris-purple transition-colors"
+          >
+            <Mail size={20} />
+          </a>
         </div>
       </div>
     </footer>
