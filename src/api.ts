@@ -4,7 +4,9 @@ import backendUrl from "./constant";
 
 const post = async (path: string, data: {}): Promise<any> => {
   try {
-    const response = await axios.post(`${backendUrl}/${path}`, data);
+    const response = await axios.post(`${backendUrl}/${path}`, data, {
+      withCredentials: true, // send session cookie for web auth
+    });
     return response.data;
   } catch (error) {
     throw error;

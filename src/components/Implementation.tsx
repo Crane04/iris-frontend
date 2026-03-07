@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Copy, Check } from "lucide-react";
+import { Link } from "react-router-dom";
 import backendUrl from "../constant";
 
-const Implementation = () => {
+const Implementation = ({ tableOnly = false }: { tableOnly?: boolean }) => {
   const [activeLang, setActiveLang] = useState("curl");
   const [copied, setCopied] = useState(false);
 
@@ -15,7 +16,9 @@ const Implementation = () => {
   ];
 
   const codeExamples: Record<string, string> = {
-    curl: `curl -X POST ${backendUrl}/compare \\
+    curl: `curl -X POST ${backendUrl}/v1/compare \\
+  -H "Content-Type: application/json" \\
+  -H "X-API-Key: iris_your_api_key_here" \\
   -d '{
     "target_url": "https://img.url/user-face",
     "people": [
@@ -25,7 +28,7 @@ const Implementation = () => {
       }
     ]
   }'`,
-    rust: `use serde::{Serialize, Deserialize};
+    rust: `use serde::Serialize;
 use reqwest::Client;
 
 #[derive(Serialize)]
@@ -51,7 +54,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }],
     };
 
-    let res = client.post("${backendUrl}/compare")
+    let res = client
+        .post("${backendUrl}/v1/compare")
+        .header("X-API-Key", "iris_your_api_key_here")
         .json(&payload)
         .send()
         .await?;
@@ -71,7 +76,15 @@ payload = {
     ]
 }
 
-response = requests.post("${backendUrl}/compare", json=payload)
+headers = {
+    "X-API-Key": "iris_your_api_key_here"
+}
+
+response = requests.post(
+    "${backendUrl}/v1/compare",
+    json=payload,
+    headers=headers
+)
 print(response.json())`,
     javascript: `const payload = {
   target_url: "https://img.url/user-face",
@@ -83,9 +96,12 @@ print(response.json())`,
   ]
 };
 
-fetch("${backendUrl}/compare", {
+fetch("${backendUrl}/v1/compare", {
   method: "POST",
-  headers: { "Content-Type": "application/json" },
+  headers: {
+    "Content-Type": "application/json",
+    "X-API-Key": "iris_your_api_key_here"
+  },
   body: JSON.stringify(payload)
 })
 .then(res => res.json())
@@ -109,10 +125,14 @@ func main() {
 			},
 		},
 	}
-	
+
 	jsonData, _ := json.Marshal(payload)
-	resp, _ := http.Post("${backendUrl}/compare", "application/json", bytes.NewBuffer(jsonData))
-	
+	req, _ := http.NewRequest("POST", "${backendUrl}/v1/compare", bytes.NewBuffer(jsonData))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("X-API-Key", "iris_your_api_key_here")
+
+	client := &http.Client{}
+	resp, _ := client.Do(req)
 	fmt.Println("Status:", resp.Status)
 }`,
   };
@@ -123,21 +143,8 @@ func main() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  return (
-    <section
-      id="docs"
-      className="py-24 px-6 max-w-7xl mx-auto border-t border-iris-purple"
-    >
-      <div className="mb-12">
-        <h3 className="text-3xl font-black uppercase tracking-tight mb-2 font-sans">
-          Implementation Section
-        </h3>
-        <p className="text-iris-purple font-mono text-[10px] font-bold tracking-widest uppercase">
-          Developer Proof: No SDK required. Pure REST implementation.
-        </p>
-      </div>
-
-      <div className="border border-iris-purple bg-iris-black overflow-hidden">
+  const table = (
+    <div className="border border-iris-purple bg-iris-black overflow-hidden">
         {/* Language Tabs */}
         <div className="flex border-b border-iris-purple overflow-x-auto no-scrollbar">
           {languages.map((lang) => (
@@ -175,6 +182,45 @@ func main() {
           </pre>
         </div>
       </div>
+  );
+
+  if (tableOnly) return table;
+
+  return (
+    <section
+      id="docs"
+      className="py-24 px-6 max-w-7xl mx-auto border-t border-iris-purple"
+    >
+      <div className="mb-12">
+        <h3 className="text-3xl font-black uppercase tracking-tight mb-2 font-sans">
+          Implementation
+        </h3>
+        <p className="text-iris-purple font-mono text-[10px] font-bold tracking-widest uppercase">
+          Pure REST. No SDK required.
+        </p>
+      </div>
+
+      {/* API key callout */}
+      <div className="mb-8 border border-zinc-800 px-6 py-4 flex items-center justify-between gap-6 flex-wrap">
+        <div>
+          <p className="text-[10px] font-mono font-bold uppercase tracking-[0.15em] text-zinc-400 mb-1">
+            Authentication required
+          </p>
+          <p className="text-xs font-mono text-zinc-600">
+            All API requests must include your key as the{" "}
+            <code className="text-iris-purple">X-API-Key</code> header.
+            Keys are free and generated instantly.
+          </p>
+        </div>
+        <Link
+          to="/register"
+          className="shrink-0 bg-iris-purple text-iris-black text-[10px] font-mono font-bold uppercase px-5 py-2 border border-iris-purple hover:bg-iris-black hover:text-iris-purple transition-all"
+        >
+          Get your free API key →
+        </Link>
+      </div>
+
+      {table}
     </section>
   );
 };

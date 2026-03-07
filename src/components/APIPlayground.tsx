@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import { Plus, Trash2, Upload } from "lucide-react";
-import post from "../api";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import backendUrl from "../constant";
 
 type ImageMode = "url" | "upload";
 
@@ -62,6 +64,7 @@ const APIPlayground = () => {
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
+  const [rateLimited, setRateLimited] = useState(false);
   const [response, setResponse] = useState<any>({
     matches: [
       { name: "user_001", probability: 98.0 },
@@ -110,14 +113,22 @@ const APIPlayground = () => {
   };
 
   const handleExecute = async () => {
+    setRateLimited(false);
     try {
       setIsLoading(true);
-      const matches = await post("compare", {
-        target_url: targetUrl,
-        people: people.map(({ name, image_url }) => ({ name, image_url })),
-      });
-      setResponse({ matches });
-    } catch (error) {
+      const { data } = await axios.post(
+        `${backendUrl}/playground/compare`,
+        {
+          target_url: targetUrl,
+          people: people.map(({ name, image_url }) => ({ name, image_url })),
+        },
+        { withCredentials: true }
+      );
+      setResponse(data);
+    } catch (err: any) {
+      if (err?.response?.status === 429) {
+        setRateLimited(true);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -130,7 +141,10 @@ const APIPlayground = () => {
           REST API Playground
         </h2>
         <p className="text-zinc-500 font-mono text-[10px] font-bold tracking-widest uppercase">
-          Live Demo Dashboard
+          Live Demo — 10 free requests/hour &nbsp;·&nbsp;{" "}
+          <Link to="/register" className="text-iris-purple hover:underline">
+            Get an API key for unlimited access
+          </Link>
         </p>
       </div>
 
@@ -292,9 +306,19 @@ const APIPlayground = () => {
               </div>
             </div>
 
+            {rateLimited && (
+              <div className="border border-yellow-800 bg-yellow-950/30 px-4 py-3 text-xs font-mono text-yellow-400">
+                Playground limit reached (10 req/hr).{" "}
+                <Link to="/register" className="underline hover:text-yellow-300">
+                  Create a free account
+                </Link>{" "}
+                to get an API key with higher limits.
+              </div>
+            )}
+
             <button
               onClick={handleExecute}
-              disabled={isLoading}
+              disabled={isLoading || rateLimited}
               className="w-full bg-iris-purple text-iris-black font-mono font-bold uppercase py-5 flex items-center justify-center gap-2 hover:bg-white transition-all disabled:opacity-50"
             >
               {isLoading ? "Analyzing..." : "POST /compare"}

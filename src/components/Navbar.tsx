@@ -1,19 +1,24 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import irisImage from "../assets/iris.png";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    closeMenu();
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
     closeMenu();
   };
 
@@ -49,10 +54,39 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-4">
-          <button className="bg-iris-purple text-iris-black text-[10px] font-mono font-bold uppercase px-6 py-2 border border-iris-purple hover:bg-iris-black hover:text-iris-purple transition-all">
-            <a href="#docs">Start Building</a>
-          </button>
+        {/* Desktop Auth */}
+        <div className="hidden md:flex items-center gap-3">
+          {user ? (
+            <>
+              <Link
+                to="/dashboard"
+                className="text-[10px] font-mono font-bold uppercase px-5 py-2 border border-zinc-700 text-zinc-400 hover:border-iris-purple hover:text-iris-purple transition-all"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="text-[10px] font-mono font-bold uppercase text-zinc-600 hover:text-zinc-300 transition-colors"
+              >
+                Sign out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="text-[10px] font-mono font-bold uppercase text-zinc-500 hover:text-iris-purple transition-colors px-2"
+              >
+                Sign in
+              </Link>
+              <Link
+                to="/register"
+                className="bg-iris-purple text-iris-black text-[10px] font-mono font-bold uppercase px-6 py-2 border border-iris-purple hover:bg-iris-black hover:text-iris-purple transition-all"
+              >
+                Get API Key
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -110,20 +144,43 @@ const Navbar = () => {
                 </a>
               ))}
 
-              <button
-                className="mt-10 bg-iris-purple text-iris-black text-sm font-mono font-bold uppercase px-8 py-3 border border-iris-purple hover:bg-iris-black hover:text-iris-purple transition-all duration-300 transform hover:scale-105"
-                onClick={() => {
-                  closeMenu();
-                  window.location.href = "#docs";
-                }}
-                style={{
-                  transitionDelay: isMenuOpen
-                    ? `${navLinks.length * 100}ms`
-                    : "0ms",
-                }}
-              >
-                Start Building
-              </button>
+              {user ? (
+                <>
+                  <Link
+                    to="/dashboard"
+                    onClick={closeMenu}
+                    className="text-2xl font-mono font-bold tracking-[0.2em] uppercase text-iris-purple"
+                    style={{ transitionDelay: isMenuOpen ? `${navLinks.length * 100}ms` : "0ms" }}
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="text-lg font-mono font-bold tracking-[0.2em] uppercase text-zinc-600 hover:text-zinc-300 transition-colors"
+                  >
+                    Sign out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    onClick={closeMenu}
+                    className="text-2xl font-mono font-bold tracking-[0.2em] uppercase text-zinc-500 hover:text-iris-purple transition-colors"
+                    style={{ transitionDelay: isMenuOpen ? `${navLinks.length * 100}ms` : "0ms" }}
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={closeMenu}
+                    className="mt-4 bg-iris-purple text-iris-black text-sm font-mono font-bold uppercase px-8 py-3 border border-iris-purple hover:bg-iris-black hover:text-iris-purple transition-all duration-300"
+                    style={{ transitionDelay: isMenuOpen ? `${(navLinks.length + 1) * 100}ms` : "0ms" }}
+                  >
+                    Get API Key
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
